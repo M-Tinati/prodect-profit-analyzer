@@ -1,10 +1,26 @@
+
+# Visual Studio
 .vs/
+
+# Build files
 bin/
 obj/
+
+# User-specific files
 *.user
 *.suo
 *.cache
+
+# Debug and Release
 Debug/
 Release/
 x64/
 x86/
+
+# Temporary files
+*.tmp
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
