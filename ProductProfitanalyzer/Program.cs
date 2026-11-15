@@ -1,54 +1,164 @@
-﻿try
+Console.WriteLine("Product Profit Analyzer");
+Console.WriteLine("-----------------------");
+
+string productName = "";
+
+while (productName.Trim() == "" || productName.Length > 50)
 {
-    Console.WriteLine("Product name :");
-    string ProductName = Console.ReadLine();
-    if (ProductName == "")
+    Console.Write("Product name: ");
+    productName = Console.ReadLine() ?? "";
+
+    if (productName.Trim() == "" || productName.Length > 50)
     {
-        while (ProductName == "")
+        Console.WriteLine("Please enter a valid product name.");
+    }
+}
+
+decimal purchasePrice = 0;
+
+while (purchasePrice <= 0)
+{
+    Console.Write("Purchase price: ");
+
+    try
+    {
+        purchasePrice = Convert.ToDecimal(Console.ReadLine());
+
+        if (purchasePrice <= 0 || purchasePrice > 1000000000)
         {
-            Console.WriteLine("Error:Product name must not be empty");
-            Console.WriteLine("Product name :");
-            ProductName = Console.ReadLine();
-            if (ProductName != "")
-            {
-                break;
-            }
+            Console.WriteLine("Enter a valid price.");
+            purchasePrice = 0;
         }
     }
-    Console.WriteLine("Purchase price :");
-    double PurchasePrice = Convert.ToDouble(Console.ReadLine());
-    if (PurchasePrice < 0)
+    catch
     {
-        Console.WriteLine("Error: must be grater than zero");
+        Console.WriteLine("Please enter a number.");
     }
-    Console.WriteLine("Purchase price :");
-    PurchasePrice = Convert.ToDouble(Console.ReadLine());
-
-    Console.WriteLine("Packaging cost :");
-    double PackagingCost = Convert.ToDouble(Console.ReadLine());
-    Console.WriteLine("Shipping cost :");
-    double ShippingCost = Convert.ToDouble(Console.ReadLine());
-    Console.WriteLine("Selling price :");
-    double SellingPrice = Convert.ToDouble(Console.ReadLine());
-
-    double FeeRate = PurchasePrice * 10 / 100;
-
-
-
-
-    Console.WriteLine("---------------");
-    Console.WriteLine("Product information received");
-    Console.WriteLine($"Product name : {ProductName}");
-    Console.WriteLine($"Purchase price : {PurchasePrice}");
-    Console.WriteLine($"Packaging cost : {PackagingCost}");
-    Console.WriteLine($"Shipping cost : : {ShippingCost}");
-    Console.WriteLine($"Selling price : : {SellingPrice}");
-    Console.WriteLine($"Fee rate is 10% of Purchase price : {FeeRate}");
-    Console.WriteLine("---------------");
 }
 
-catch (Exception ex)
+decimal packagingCost = -1;
+
+while (packagingCost < 0)
 {
-    Console.WriteLine(ex.Message);
+    Console.Write("Packaging cost: ");
+
+    try
+    {
+        packagingCost = Convert.ToDecimal(Console.ReadLine());
+
+        if (packagingCost < 0 || packagingCost > 1000000000)
+        {
+            Console.WriteLine("Cost cannot be negative or too large.");
+            packagingCost = -1;
+        }
+    }
+    catch
+    {
+        Console.WriteLine("Please enter a number.");
+    }
 }
 
+decimal shippingCost = -1;
+
+while (shippingCost < 0)
+{
+    Console.Write("Shipping cost: ");
+
+    try
+    {
+        shippingCost = Convert.ToDecimal(Console.ReadLine());
+
+        if (shippingCost < 0 || shippingCost > 1000000000)
+        {
+            Console.WriteLine("Enter a valid shipping cost.");
+            shippingCost = -1;
+        }
+    }
+    catch
+    {
+        Console.WriteLine("Please enter a number.");
+    }
+}
+
+decimal sellingPrice = 0;
+
+while (sellingPrice <= 0)
+{
+    Console.Write("Selling price: ");
+
+    try
+    {
+        sellingPrice = Convert.ToDecimal(Console.ReadLine());
+
+        if (sellingPrice <= 0 || sellingPrice > 1000000000)
+        {
+            Console.WriteLine("Enter a valid selling price.");
+            sellingPrice = 0;
+        }
+    }
+    catch
+    {
+        Console.WriteLine("Please enter a number.");
+    }
+}
+
+decimal feeRate = -1;
+
+while (feeRate < 0)
+{
+    Console.Write("Platform fee (%): ");
+
+    try
+    {
+        feeRate = Convert.ToDecimal(Console.ReadLine());
+
+        if (feeRate < 0 || feeRate > 100)
+        {
+            Console.WriteLine("Fee must be between 0 and 100.");
+            feeRate = -1;
+        }
+    }
+    catch
+    {
+        Console.WriteLine("Please enter a number.");
+    }
+}
+
+// Calculations
+
+decimal platformFee = sellingPrice * feeRate / 100;
+decimal totalCost = purchasePrice + packagingCost + shippingCost + platformFee;
+decimal netProfit = sellingPrice - totalCost;
+decimal profitMargin = netProfit / sellingPrice * 100;
+
+// Report
+
+Console.WriteLine();
+Console.WriteLine("----- Product Report -----");
+
+Console.WriteLine("Product: " + productName);
+Console.WriteLine("Purchase price: " + purchasePrice);
+Console.WriteLine("Packaging cost: " + packagingCost);
+Console.WriteLine("Shipping cost: " + shippingCost);
+Console.WriteLine("Selling price: " + sellingPrice);
+Console.WriteLine("Platform fee: " + platformFee);
+
+Console.WriteLine();
+Console.WriteLine("Total cost: " + totalCost);
+Console.WriteLine("Net profit: " + netProfit);
+Console.WriteLine("Profit margin: " + profitMargin.ToString("0.00") + "%");
+
+if (netProfit > 0)
+{
+    Console.WriteLine("Status: Profitable");
+}
+else if (netProfit < 0)
+{
+    Console.WriteLine("Status: Loss");
+}
+else
+{
+    Console.WriteLine("Status: Break-even");
+}
+
+Console.WriteLine("--------------------------");
